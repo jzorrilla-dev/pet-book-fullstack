@@ -64,7 +64,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
 const AuthWrapper: React.FC = () => {
   // Ahora useAuth() se llama DENTRO del contexto del Router
-  const { user, isLoading } = useAuth();
 
   // Puedes usar user y isLoading aquí si necesitas lógica de carga global
   // Por ejemplo, un spinner global mientras isLoading es true

@@ -1,5 +1,5 @@
 // Home.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faHeart, faHome } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,6 @@ const Home = () => {
       try {
         await handleTestSession();
 
-        const response = await getPets();
         // **MODIFICACIÓN CLAVE AQUÍ:**
         // Asegúrate de que 'pets' siempre sea un array.
         // Si response.data no es un array o es null/undefined, usa un array vacío.

@@ -1,8 +1,7 @@
 // MascotaPerdidaList.tsx
 import { useEffect, useState } from "react";
 import { getLostPets } from "../services/api";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+
 import { AxiosError } from "axios";
 
 type LostPet = {
@@ -24,8 +23,6 @@ export default function MascotaPerdidaList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedPet, setSelectedPet] = useState<LostPet | null>(null);
-
-  const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,11 +1,6 @@
 import axios from "axios";
 import { Pet } from "../Types/Pet";
-import {
-  User,
-  LoginCredentials,
-  NewUser,
-  ResetPasswordCredentials,
-} from "../Types/User";
+import { ResetPasswordCredentials } from "../Types/User";
 
 // Mantén BASE_URL_FOR_PROXY como "/"
 const BASE_URL_FOR_PROXY = "/";

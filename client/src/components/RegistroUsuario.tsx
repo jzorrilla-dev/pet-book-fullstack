@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useDispatch } from "react-redux";
 import { register } from "../services/api"; // Elimina getUser de aquí
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -31,7 +30,6 @@ const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const RegistroUsuario: React.FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {

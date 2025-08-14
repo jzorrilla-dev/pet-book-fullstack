@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Mantén Routes y Route si los necesitas en App.tsx por alguna razón, pero AuthWrapper los usará
+import { BrowserRouter as Router } from "react-router-dom"; // Mantén Routes y Route si los necesitas en App.tsx por alguna razón, pero AuthWrapper los usará
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import { getCsrfToken } from "./services/api"; // Para el CSRF inicial

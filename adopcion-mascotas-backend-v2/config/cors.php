@@ -15,7 +15,7 @@ return [
     'allowed_methods' => ['*'],
 
     // Asegúrate de que tu frontend (React) esté aquí. Si solo usas localhost:3000, solo esa es suficiente.
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => [env('FRONTEND_URL')],
 
     'allowed_origins_patterns' => [],
 

@@ -1,0 +1,18 @@
+# Ignora archivos de configuración de entorno
+.env
+
+# Ignora la carpeta de configuración de VS Code
+.vscode/
+
+# Ignora la carpeta de dependencias de Node.js
+# Esto es importante para el frontend, ya que las dependencias
+# se instalarán en el contenedor durante el despliegue
+client/node_modules/
+
+# Ignora la carpeta de dependencias de Laravel
+# Las dependencias de PHP se instalarán en el contenedor
+adopcion-mascotas-backend-v2/vendor/
+
+# También puedes ignorar la carpeta `client/build`
+# si no quieres que se suba el código compilado
+client/build/

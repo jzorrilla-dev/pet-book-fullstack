@@ -1,0 +1,37 @@
+services:
+  # Servicio para el backend (Laravel)
+  laravel:
+    build: . # Construye la imagen para producción
+    ports:
+      - "80:80" # Mapea directamente al puerto 80 estándar
+    environment:
+      # Variables de entorno para producción
+      - APP_ENV=production
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      # ... otras variables de DB que Railway nos dará ...
+    depends_on:
+      - postgres
+
+  # Servicio para el frontend (React)
+  client:
+    build: ./client # Construye la imagen para producción
+    ports:
+      - "80:80" # Mapea directamente al puerto 80 estándar
+    depends_on:
+      - laravel
+
+  # Servicio para la base de datos (PostgreSQL)
+  postgres:
+    image: postgres:13-alpine # Imagen oficial de PostgreSQL
+    environment:
+      # Variables de entorno para la base de datos
+      - POSTGRES_DB=mi_app
+      - POSTGRES_USER=usuario
+      - POSTGRES_PASSWORD=password_segura
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

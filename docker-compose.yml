@@ -1,0 +1,70 @@
+services:
+  # Servicio para el backend de Laravel
+  backend:
+    build:
+      context: ./adopcion-mascotas-backend-v2
+      dockerfile: Dockerfile
+    container_name: backend-app
+    restart: unless-stopped
+    volumes:
+      - ./adopcion-mascotas-backend-v2:/var/www/html
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_URL=http://localhost:8000
+      - FRONTEND_URL=http://localhost:3000 # Necesario para el correo en desarrollo
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      - DB_DATABASE=adopcion_mascotas_db
+      - DB_USERNAME=juanchi_dev
+      - DB_PASSWORD=juanchi.POSTGRES.2025
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mailpit
+      - MAIL_PORT=1025
+      - MAIL_USERNAME=null
+      - MAIL_PASSWORD=null
+      - MAIL_ENCRYPTION=null
+      - MAIL_FROM_ADDRESS=hello@example.com
+      - MAIL_FROM_NAME="${APP_NAME}"
+    depends_on:
+      - postgres-db
+      - mailpit
+
+  # Servicio para el frontend de React
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.frontend
+    container_name: frontend-app
+    restart: unless-stopped
+    volumes:
+      - ./client:/app
+    ports:
+      - "3000:3000"
+
+  # Servicio para la base de datos PostgreSQL
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=adopcion_mascotas_db
+      - POSTGRES_USER=juanchi_dev
+      - POSTGRES_PASSWORD=juanchi.POSTGRES.2025
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  # Servicio para el servidor de correo Mailpit
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    ports:
+      - "8025:8025"
+
+volumes:
+  postgres-data:

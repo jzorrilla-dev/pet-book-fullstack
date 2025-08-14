@@ -8,14 +8,16 @@ return [
         'login',
         'logout',
         'register',
-        'test-session', // <-- ¡Añade esta línea!
-        '/'             // <-- ¡Añade esta línea! Esto cubrirá cualquier ruta en la raíz.
+        'test-session',
+        '/',
     ],
 
     'allowed_methods' => ['*'],
 
-    // Asegúrate de que tu frontend (React) esté aquí. Si solo usas localhost:3000, solo esa es suficiente.
-    'allowed_origins' => [env('FRONTEND_URL')],
+    // ¡AQUÍ ESTÁ LA CORRECCIÓN CLAVE!
+    // Usamos la variable de entorno como respaldo, pero también agregamos
+    // explícitamente el dominio de producción del frontend para garantizar que funcione.
+    'allowed_origins' => [env('FRONTEND_URL'), 'https://pet-book-fullstack-production.up.railway.app'],
 
     'allowed_origins_patterns' => [],
 
@@ -25,5 +27,5 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true, // <-- Esto es crucial para Sanctum y cookies.
+    'supports_credentials' => true,
 ];

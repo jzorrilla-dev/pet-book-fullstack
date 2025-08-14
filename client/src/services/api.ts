@@ -2,11 +2,11 @@ import axios from "axios";
 import { Pet } from "../Types/Pet";
 import { ResetPasswordCredentials } from "../Types/User";
 
-// Mantén BASE_URL_FOR_PROXY como "/"
-const BASE_URL_FOR_PROXY = "/";
+// Importa y usa la variable de entorno para la URL de la API.
+const BASE_URL = process.env.REACT_APP_API_URL || "/";
 
 export const api = axios.create({
-  baseURL: BASE_URL_FOR_PROXY,
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

@@ -1,32 +1,43 @@
-# Usa una imagen base de PHP con FPM
-FROM php:8.2-fpm-alpine
+# Etapa 1: Instalar dependencias y Composer
+FROM php:8.2-fpm-alpine AS builder
 
+# Directorio de trabajo
 WORKDIR /var/www/html
 
-RUN apk upgrade --no-cache && \
-    rm -rf /var/cache/apk/*
-
+# Actualizar paquetes y agregar extensiones necesarias
 RUN apk add --no-cache \
     git \
     curl \
     libpng-dev \
     libjpeg-turbo-dev \
-    postgresql-dev && \
-    docker-php-ext-install pdo_pgsql opcache
+    postgresql-dev \
+    bash \
+    unzip \
+    oniguruma-dev
 
-COPY . .
+# Instalar extensiones PHP
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath opcache
 
+# Copiar archivos de Composer para cachear dependencias
+COPY ./adopcion-mascotas-backend-v2/composer.json ./adopcion-mascotas-backend-v2/composer.lock ./
+
+# Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --prefer-dist
 
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Copiar el resto del código
+COPY ./adopcion-mascotas-backend-v2 ./
 
-# Copiamos el entrypoint y lo marcamos como ejecutable
-COPY entrypoint.sh /entrypoint.sh
+# Ajustar permisos
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+# Copiar entrypoint y darle permisos
+COPY ./adopcion-mascotas-backend-v2/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 8000
+# Exponer puerto interno para PHP-FPM
+EXPOSE 9000
 
-# Usamos formato JSON para evitar el warning
+# Comando de arranque
 CMD ["/entrypoint.sh"]

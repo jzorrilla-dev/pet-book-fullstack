@@ -43,7 +43,7 @@ services:
     volumes:
       - ./client:/app
     ports:
-      - "3000:3000"
+      - "3000:80"
 
   # Servicio para la base de datos PostgreSQL
   postgres-db:

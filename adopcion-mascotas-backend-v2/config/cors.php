@@ -14,10 +14,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // ¡AQUÍ ESTÁ LA CORRECCIÓN CLAVE!
-    // Usamos la variable de entorno como respaldo, pero también agregamos
-    // explícitamente el dominio de producción del frontend para garantizar que funcione.
-    'allowed_origins' => [env('FRONTEND_URL'), 'https://pet-book-fullstack-production.up.railway.app'],
+    // Usamos la variable de entorno para el origen del frontend.
+    // En producción, esto será el dominio real de tu aplicación.
+    'allowed_origins' => [env('FRONTEND_URL')],
 
     'allowed_origins_patterns' => [],
 

@@ -1,37 +1,69 @@
+# Este archivo configura los servicios para el despliegue en un entorno de producción.
+# Utiliza un proxy inverso (Nginx) para gestionar el tráfico de los clientes.
 services:
-  # Servicio para el backend (Laravel)
-  laravel:
-    build: . # Construye la imagen para producción
+  # El servicio de proxy inverso de Nginx
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-proxy
+    restart: unless-stopped
     ports:
-      - "80:80" # Mapea directamente al puerto 80 estándar
+      # Mapea el puerto 80 del servidor físico al puerto 80 del contenedor Nginx.
+      # Este es el único puerto que se expone al exterior.
+      - "80:80"
+    volumes:
+      # Monta un archivo de configuración de Nginx para definir las reglas de enrutamiento.
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    # Nginx necesita que los servicios de frontend y backend estén listos para arrancar.
+    depends_on:
+      - frontend
+      - backend
+
+  # El servicio del backend de Laravel
+  backend:
+    build:
+      context: ./adopcion-mascotas-backend-v2 # Aseguramos que se construya la imagen desde el directorio correcto
+      dockerfile: Dockerfile
+    container_name: backend-app
+    restart: unless-stopped
+    # No se expone el puerto al exterior, solo se usa internamente por el proxy.
+    expose:
+      - "8000"
+    # Las variables de entorno en producción se establecerán en DigitalOcean.
     environment:
-      # Variables de entorno para producción
       - APP_ENV=production
       - DB_CONNECTION=pgsql
-      - DB_HOST=postgres
-      # ... otras variables de DB que Railway nos dará ...
+      - DB_HOST=postgres-db
+      - DB_PORT=5432
+      # ... Aquí irían las variables de DigitalOcean para el frontend, backend, etc. ...
+    # El backend necesita que la base de datos esté lista.
     depends_on:
-      - postgres
+      - postgres-db
+  
+  # El servicio del frontend de React
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.frontend
+    container_name: frontend-app
+    restart: unless-stopped
+    # No se expone el puerto al exterior, solo se usa internamente por el proxy.
+    expose:
+      - "80"
 
-  # Servicio para el frontend (React)
-  client:
-    build: ./client # Construye la imagen para producción
-    ports:
-      - "80:80" # Mapea directamente al puerto 80 estándar
-    depends_on:
-      - laravel
-
-  # Servicio para la base de datos (PostgreSQL)
-  postgres:
-    image: postgres:13-alpine # Imagen oficial de PostgreSQL
+  # El servicio de la base de datos PostgreSQL
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:15-alpine
+    restart: unless-stopped
+    # Las variables de entorno para la base de datos se establecerán en DigitalOcean.
     environment:
-      # Variables de entorno para la base de datos
-      - POSTGRES_DB=mi_app
-      - POSTGRES_USER=usuario
-      - POSTGRES_PASSWORD=password_segura
+      - POSTGRES_DB=adopcion_mascotas_db
+      - POSTGRES_USER=juanchi_dev
+      - POSTGRES_PASSWORD=juanchi.POSTGRES.2025
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+    # No se expone el puerto al exterior, solo se usa internamente.
+    # DigitalOcean nos dará las credenciales para acceder remotamente.
 
 volumes:
-  postgres_data:
-    driver: local
+  postgres-data:

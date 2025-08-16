@@ -36,7 +36,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://backend-app:8000",
+   "proxy": "https://pet-book-fullstack-production.up.railway.app",
   "eslintConfig": {
     "extends": [
       "react-app",

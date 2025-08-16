@@ -14,9 +14,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    // Usamos la variable de entorno para el origen del frontend.
-    // En producción, esto será el dominio real de tu aplicación.
-    'allowed_origins' => [env('FRONTEND_URL')],
+    'allowed_origins' => [
+        // Si estamos en producción, usamos la URL de Railway
+        env('APP_ENV') === 'production'
+            ? 'https://appealing-vitality-production.up.railway.app'
+            : env('FRONTEND_URL'), // Si no, leemos la variable de entorno local
+    ],
 
     'allowed_origins_patterns' => [],
 
@@ -27,4 +30,5 @@ return [
     'max_age' => 0,
 
     'supports_credentials' => true,
+
 ];

@@ -15,7 +15,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'https://appealing-vitality-production.up.railway.app',
+        'https://pet-book-client-nine.vercel.app',
         'http://localhost:3000', // Para desarrollo
     ],
     'allowed_origins_patterns' => [],

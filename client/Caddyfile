@@ -1,0 +1,12 @@
+:80 {
+  # Proxy para las peticiones a la API
+  reverse_proxy /api/* https://pet-book-fullstack-production.up.railway.app {
+    header_up Host {http.request.host}
+    header_up X-Real-IP {http.request.remote}
+  }
+
+  # Sirve los archivos estáticos de tu aplicación React
+  file_server {
+    root /app/build
+  }
+}

@@ -1,8 +1,4 @@
 :80 {
-  # Proxy para las peticiones a la API
-  reverse_proxy /api/* https://pet-book-fullstack-production.up.railway.app
-
-  # Sirve los archivos estáticos de tu aplicación React
   root * /app/build
   file_server
 }

@@ -13,11 +13,7 @@ return [
     ],
 
     'allowed_methods' => ['*'],
-
-    'allowed_origins' => [
-        'https://pet-book-client-nine.vercel.app',
-        'http://localhost:3000', // Para desarrollo
-    ],
+    'allowed_origins' => ['*'],
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],

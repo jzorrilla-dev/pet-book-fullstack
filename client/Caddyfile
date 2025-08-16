@@ -4,9 +4,8 @@
     header_up Host {http.request.host}
     header_up X-Real-IP {http.request.remote}
   }
-
-  # Sirve los archivos estáticos de tu aplicación React
-  file_server {
-    root /app/build
+   # Sirve los archivos estáticos de tu aplicación React
+   root * /app/build
+   file_server
   }
 }

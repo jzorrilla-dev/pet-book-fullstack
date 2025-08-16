@@ -15,7 +15,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        env('FRONTEND_URL_PROD', 'http://localhost:3000')
+        'https://appealing-vitality-production.up.railway.app',
+        'http://localhost:3000', // Para desarrollo
     ],
     'allowed_origins_patterns' => [],
 

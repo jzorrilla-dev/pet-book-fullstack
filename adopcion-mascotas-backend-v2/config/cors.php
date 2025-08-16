@@ -13,7 +13,7 @@ return [
     ],
 
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://pet-book-client-nine.vercel.app'],
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
